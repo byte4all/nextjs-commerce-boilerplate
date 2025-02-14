@@ -10,11 +10,67 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model Category {
+    id       String    @id @default(uuid())
+    name     String
+    icon     String
+    products Product[]
+}
 
-    @@index([name])
+model Manufacturer {
+    id       String    @id @default(uuid())
+    name     String
+    logo     String
+    products Product[]
+}
+
+model Rating {
+    id          String  @id @default(uuid())
+    score       Int     @db.SmallInt
+    description String
+    productId   String
+    product     Product @relation(fields: [productId], references: [id])
+
+    @@index([productId])
+}
+
+model Product {
+    id              String         @id @default(uuid())
+    name            String
+    description     String
+    price          Float
+    stock          Int
+    image          String
+    categoryId     String
+    manufacturerId String
+    category       Category       @relation(fields: [categoryId], references: [id])
+    manufacturer   Manufacturer   @relation(fields: [manufacturerId], references: [id])
+    ratings        Rating[]
+    orderProducts  OrderProduct[]
+
+    @@index([categoryId])
+    @@index([manufacturerId])
+}
+
+model OrderProduct {
+    id         String  @id @default(uuid())
+    productId  String
+    quantity   Int
+    totalPrice Float
+    status     String  @default("pending")
+    orderId    String
+    order      Order   @relation(fields: [orderId], references: [id])
+    product    Product @relation(fields: [productId], references: [id])
+
+    @@index([orderId])
+    @@index([productId])
+}
+
+model Order {
+    id            String         @id @default(uuid())
+    status        String        @default("pending")
+    createdAt     DateTime      @default(now())
+    pickupTime    DateTime?
+    totalCost     Float
+    orderProducts OrderProduct[]
 }
