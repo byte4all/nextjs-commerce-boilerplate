@@ -2,7 +2,7 @@ import "~/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
-
+import Navbar from './_components/Navbar';
 import { TRPCReactProvider } from "~/trpc/react";
 
 export const metadata: Metadata = {
@@ -16,9 +16,13 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
-      <body>
+      <Navbar />
+      <body className="pt-20"> 
         <TRPCReactProvider>{children}</TRPCReactProvider>
       </body>
     </html>
   );
 }
+
+
+

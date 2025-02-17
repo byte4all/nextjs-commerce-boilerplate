@@ -1,3 +1,124 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@keyframes bubble {
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+}
+
+@keyframes ripple {
+  from {
+    width: 0px;
+    height: 0px;
+    opacity: 0.5;
+  }
+  to {
+    width: 500px;
+    height: 500px;
+    opacity: 0;
+  }
+}
+
+@keyframes oceanWave {
+  0% {
+    transform: translateX(-100%) scaleY(1);
+  }
+  50% {
+    transform: translateX(-50%) scaleY(0.85);
+  }
+  100% {
+    transform: translateX(100%) scaleY(1);
+  }
+}
+
+.bubble-text {
+    position: relative;
+    display: inline-block;
+    transition: all 0.3s ease-in-out;
+}
+
+.bubble-text::after,
+.bubble-text span {
+    content: "○";
+    position: absolute;
+    bottom: 0;
+    font-size: 8px;
+    color: rgba(6, 182, 212, 0.5);
+    pointer-events: none;
+}
+
+.bubble-text::before {
+    left: 20%;
+    animation: bubble 2s infinite;
+}
+
+.bubble-text::after {
+    left: 80%;
+    animation: bubble 2.5s infinite;
+}
+
+.bubble-text span:nth-child(1) {
+    left: 40%;
+    animation: bubble 3s infinite;
+}
+
+.bubble-text span:nth-child(2) {
+    left: 60%;
+    animation: bubble 2.7s infinite;
+}
+
+.bubble-text span:nth-child(3) {
+    left: 30%;
+    animation: bubble 2.2s infinite;
+}
+
+.animate-ripple {
+  animation: ripple 0.5s linear forwards;
+}
+
+.ocean-wave-1,
+.ocean-wave-2,
+.ocean-wave-3 {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
+  );
+  height: 200%;
+  width: 200%;
+  position: absolute;
+  top: -50%;
+  left: 0;
+  opacity: 0.3;
+  transition: all 0.3s;
+  border-radius: 45%;
+}
+
+.ocean-wave-1 {
+  animation: oceanWave 2s infinite linear;
+  background-color: aqua;
+}
+
+.ocean-wave-2 {
+  animation: oceanWave 3s infinite linear;
+  background-color: aqua;
+  opacity: 0.1;
+}
+
+.ocean-wave-3 {
+  animation: oceanWave 4s infinite linear;
+  background-color: aqua;
+  opacity: 0.2;
+}
+
