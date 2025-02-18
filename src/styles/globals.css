@@ -41,17 +41,22 @@
   }
 }
 
+@keyframes border-shine {
+  100% {
+    left: 200%;
+  }
+}
+
 .bubble-text {
     position: relative;
     display: inline-block;
-    transition: all 0.3s ease-in-out;
 }
 
 .bubble-text::after,
+.bubble-text::before,
 .bubble-text span {
     content: "○";
     position: absolute;
-    bottom: 0;
     font-size: 8px;
     color: rgba(6, 182, 212, 0.5);
     pointer-events: none;
@@ -59,16 +64,19 @@
 
 .bubble-text::before {
     left: 20%;
+    bottom: 0;
     animation: bubble 2s infinite;
 }
 
 .bubble-text::after {
     left: 80%;
+    bottom: 0;
     animation: bubble 2.5s infinite;
 }
 
 .bubble-text span:nth-child(1) {
     left: 40%;
+    bottom: 0;
     animation: bubble 3s infinite;
 }
 
@@ -82,8 +90,35 @@
     animation: bubble 2.2s infinite;
 }
 
+.bubble-text button {
+  overflow: hidden;
+}
+
 .animate-ripple {
   animation: ripple 0.5s linear forwards;
+}
+
+.animate-border-shine {
+  position: relative;
+}
+
+.animate-border-shine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(6, 182, 212, 0.2) 20%,
+    rgba(6, 182, 212, 0.4) 50%,
+    rgba(6, 182, 212, 0.2) 80%,
+    transparent 100%
+  );
+  transform: skewX(-25deg);
+  animation: border-shine 1s ease-out;
 }
 
 .ocean-wave-1,
@@ -120,5 +155,24 @@
   animation: oceanWave 4s infinite linear;
   background-color: aqua;
   opacity: 0.2;
+}
+
+/* Custom scrollbar styles */
+.scrollbar-thin::-webkit-scrollbar {
+  height: 8px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #06b6d4;
+  border-radius: 4px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: #0891b2;
 }
 

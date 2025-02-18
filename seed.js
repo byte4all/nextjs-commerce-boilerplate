@@ -2,6 +2,23 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+// Add this helper function at the top
+const getRandomRatings = (productId) => {
+  const loremDescriptions = [
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "Ut enim ad minim veniam, quis nostrud exercitation ullamco.",
+    "Duis aute irure dolor in reprehenderit in voluptate velit.",
+    "Excepteur sint occaecat cupidatat non proident, sunt in culpa."
+  ];
+
+  return Array.from({ length: 5 }, (_, i) => ({
+    score: Math.floor(Math.random() * 5) + 1, // Random score between 1-5
+    description: loremDescriptions[i],
+    productId: productId
+  }));
+};
+
 async function main() {
   // Clean the database first
   await prisma.orderProduct.deleteMany();
@@ -63,7 +80,7 @@ async function main() {
   for (const manufacturer of manufacturers.slice(0, 2)) {
     // Create 4 shampoos
     for (let i = 1; i <= 4; i++) {
-      await prisma.product.create({
+      const product = await prisma.product.create({
         data: {
           name: `Shampoo ${i}`,
           description: `A great shampoo from ${manufacturer.name}`,
@@ -75,8 +92,13 @@ async function main() {
         },
       });
 
+      // Add ratings for this product
+      await prisma.rating.createMany({
+        data: getRandomRatings(product.id)
+      });
+
       // Create 4 bodywashes
-      await prisma.product.create({
+      const bodywash = await prisma.product.create({
         data: {
           name: `Bodywash ${i}`,
           description: `A refreshing bodywash from ${manufacturer.name}`,
@@ -87,13 +109,18 @@ async function main() {
           manufacturerId: manufacturer.id,
         },
       });
+
+      // Add ratings for this product
+      await prisma.rating.createMany({
+        data: getRandomRatings(bodywash.id)
+      });
     }
   }
 
   // Create Towel products for Kiwi
   const towelColors = ['Blue', 'Red', 'White', 'Beige'];
   for (const color of towelColors) {
-    await prisma.product.create({
+    const towel = await prisma.product.create({
       data: {
         name: `Towel ${color}`,
         description: `A soft and absorbent ${color.toLowerCase()} towel`,
@@ -103,6 +130,11 @@ async function main() {
         categoryId: categories[2].id, // Towels category
         manufacturerId: manufacturers[2].id, // Kiwi manufacturer
       },
+    });
+
+    // Add ratings for this product
+    await prisma.rating.createMany({
+      data: getRandomRatings(towel.id)
     });
   }
 
