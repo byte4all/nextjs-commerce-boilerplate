@@ -13,6 +13,7 @@ datasource db {
 model Category {
     id       String    @id @default(uuid())
     name     String
+    slug     String    @unique
     icon     String
     products Product[]
 }

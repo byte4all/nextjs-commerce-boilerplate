@@ -1,10 +1,10 @@
 "use client";
 
-import { Product } from "@prisma/client";
+import { Manufacturer, Product } from "@prisma/client";
 import { ProductCard } from "./ProductCard";
 
 interface ProductGridProps {
-  products: Product[];
+  products: (Product & { manufacturer: Manufacturer })[];
 }
 
 export function ProductGrid({ products }: ProductGridProps) {
@@ -17,4 +17,4 @@ export function ProductGrid({ products }: ProductGridProps) {
       </div>
     </div>
   );
-}
+} 

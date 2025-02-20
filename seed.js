@@ -2,6 +2,11 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+// Add slug generator helper function
+const generateSlug = (name) => {
+  return name.toLowerCase().replace(/\s+/g, '-');
+};
+
 // Add this helper function at the top
 const getRandomRatings = (productId) => {
   const loremDescriptions = [
@@ -28,24 +33,27 @@ async function main() {
   await prisma.category.deleteMany();
   await prisma.manufacturer.deleteMany();
 
-  // Create categories
+  // Create categories with slugs
   const categories = await Promise.all([
     prisma.category.create({
       data: {
         name: 'Bodywash',
-        icon: '/icon/placeholderIcon.webp',
+        slug: generateSlug('Bodywash'),
+        icon: '/img/soaps.webp',
       },
     }),
     prisma.category.create({
       data: {
         name: 'Shampoo',
-        icon: '/icon/placeholderIcon.webp',
+        slug: generateSlug('Shampoo'),
+        icon: '/img/categories/shampoo.webp',
       },
     }),
     prisma.category.create({
       data: {
         name: 'Towels',
-        icon: '/icon/placeholderIcon.webp',
+        slug: generateSlug('Towels'),
+        icon: '/img/categories/towel.webp',
       },
     }),
   ]);

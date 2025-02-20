@@ -35,7 +35,7 @@ export default function Navbar() {
 
           {/* Logo */}
           <div className="flex justify-center w-1/3">
-            <Link href="/" className="text-2xl font-bold text-cyan-500 relative">
+            <Link href="/" className="text-4xl font-bold text-cyan-500 relative">
               <span className="bubble-text hover:scale-110 hover:text-cyan-400">
                 Aqua Heaven
                 <span>○</span>

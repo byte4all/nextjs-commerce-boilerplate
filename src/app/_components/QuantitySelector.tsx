@@ -1,19 +1,29 @@
 "use client";
 
 import { Plus, Minus } from "lucide-react";
-import { useState } from "react";
+import { useCartStore } from "~/stores/cartStore";
 
 interface QuantitySelectorProps {
-  onQuantityChange?: (quantity: number) => void;
+  productId: string;
   initialQuantity?: number;
+  onAnimationTrigger?: () => void;
 }
 
-export function QuantitySelector({ onQuantityChange, initialQuantity = 0 }: QuantitySelectorProps) {
-  const [quantity, setQuantity] = useState(initialQuantity);
+export function QuantitySelector({ productId, initialQuantity, onAnimationTrigger }: QuantitySelectorProps) {
+  const { items, addItem, updateQuantity } = useCartStore();
+  const currentItem = items.find(item => item.id === productId);
+  const quantity = currentItem?.quantity ?? 0;
 
   const handleQuantityChange = (newQuantity: number) => {
-    setQuantity(newQuantity);
-    onQuantityChange?.(newQuantity);
+    if (quantity === 0 && newQuantity === 1) {
+      addItem(productId, 1);
+      onAnimationTrigger?.();
+    } else if (newQuantity === 0) {
+      // This will trigger the removal through the updateQuantity logic
+      updateQuantity(productId, 0);
+    } else {
+      updateQuantity(productId, newQuantity);
+    }
   };
 
   return (

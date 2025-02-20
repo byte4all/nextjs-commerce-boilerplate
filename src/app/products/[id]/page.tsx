@@ -46,7 +46,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 <span className="text-2xl font-bold">
                   ${product.price.toFixed(2)}
                 </span>
-                <QuantitySelector />
+                <QuantitySelector productId={product.id} />
               </div>
             </div>
 
